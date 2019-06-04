@@ -94,7 +94,7 @@ private String logStashConfFile;
 				TimeUnit.SECONDS.sleep(15); // REMOVE THIS IF ANYTHING WE GET TO FIND THE LOGSTASH RELOADIND SATUS
 				return ServiceConstants.LOGSTASH_COPYCONFFILE_SUCCESS;
 			} else {
-				return ServiceConstants.LOGSTASH_NOTSTSARTED_ERROR;
+				return ServiceConstants.LOGSTASH_NOTSTARTED_ERROR;
 			}
 
 		} catch (IOException e) {
