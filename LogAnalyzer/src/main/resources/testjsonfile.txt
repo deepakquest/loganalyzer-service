@@ -1,0 +1,44 @@
+[{
+                       "TIME" : "7:00:48",
+     "GREEDYDATA:messagepart" : "Problem receiving change notification on Notification21024Client@32843/57600. Connection will be closed. java.io.EOFException \tat java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:2626) \tat java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1321) \tat java.io.ObjectInputStream.readObject(ObjectInputStream.java:373) \tat com.ge.med.pef.iac.SharedData$Primary$NotificationClientIPC$1.run(SharedData.java:417)",
+                   "@version" : "1",
+                  "component" : "nuevo",
+    "GREEDYDATA:timeMeridian" : "AM",
+          "LOGLEVEL:loglevel" : "SEVERE",
+                       "YEAR" : "2019",
+                       "type" : "nuevobrowser",
+                   "MONTHDAY" : "01",
+                       "tags" : [
+        [0] "multiline"
+    ],
+        "JAVACLASS:classname" : "com.ge.med.pef.iac.SharedData$Primary$NotificationClientIPC$1",
+        "GREEDYDATA:function" : "run",
+                    "message" : "Apr 01, 2019 7:00:48 AM com.ge.med.pef.iac.SharedData$Primary$NotificationClientIPC$1 run SEVERE: Problem receiving change notification on Notification21024Client@32843/57600. Connection will be closed. java.io.EOFException \tat java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:2626) \tat java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1321) \tat java.io.ObjectInputStream.readObject(ObjectInputStream.java:373) \tat com.ge.med.pef.iac.SharedData$Primary$NotificationClientIPC$1.run(SharedData.java:417)",
+                       "path" : "/usr/tmp/logstashinput/browser.log.0",
+                       "host" : "tvmdt1544-h",
+                      "MONTH" : "Apr",
+                 "@timestamp" : "2019-04-16T10:14:15.005Z",
+                    "logname" : "browser.log"
+},
+{
+                       "TIME" : "7:00:48",
+     "GREEDYDATA:messagepart" : "Closing change notification connection on Notification21024Client@32843/57600.",
+                   "@version" : "1",
+                  "component" : "nuevo",
+    "GREEDYDATA:timeMeridian" : "AM",
+          "LOGLEVEL:loglevel" : "INFO",
+                       "YEAR" : "2019",
+                       "type" : "nuevobrowser",
+                   "MONTHDAY" : "01",
+                       "tags" : [
+        [0] "multiline"
+    ],
+        "JAVACLASS:classname" : "com.ge.med.pef.iac.SharedData$Primary$NotificationClientIPC$1",
+        "GREEDYDATA:function" : "run",
+                    "message" : "Apr 01, 2019 7:00:48 AM com.ge.med.pef.iac.SharedData$Primary$NotificationClientIPC$1 run INFO: Closing change notification connection on Notification21024Client@32843/57600.",
+                       "path" : "/usr/tmp/logstashinput/browser.log.0",
+                       "host" : "tvmdt1544-h",
+                      "MONTH" : "Apr",
+                 "@timestamp" : "2019-04-16T10:14:15.005Z",
+                    "logname" : "browser.log"
+}]

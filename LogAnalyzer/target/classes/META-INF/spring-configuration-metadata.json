@@ -1,0 +1,20 @@
+{
+  "groups": [{
+    "name": "file",
+    "type": "com.quest.loganalyzer.util.FileStorageProperties",
+    "sourceType": "com.quest.loganalyzer.util.FileStorageProperties"
+  }],
+  "properties": [
+    {
+      "name": "elastic.app.path",
+      "type": "java.lang.String",
+      "description": "A description for 'elastic.app.path'"
+    },
+    {
+      "name": "file.upload-dir",
+      "type": "java.lang.String",
+      "sourceType": "com.quest.loganalyzer.util.FileStorageProperties"
+    }
+  ],
+  "hints": []
+}
