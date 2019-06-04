@@ -1,2 +1,2 @@
 # loganalyzer-service
-Repository for Log Analyzer Backend Services
+Repository for Log Analyzer Backend Services.
