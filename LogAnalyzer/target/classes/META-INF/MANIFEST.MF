@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: SpringBootRestApiExample
+Implementation-Version: 1.0.0
+Built-By: 1013422
+Implementation-Vendor-Id: com.quest.loganalyzer
+Build-Jdk: 1.8.0_181
+Implementation-URL: http://projects.spring.io/spring-boot/LogAnalyzer/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
