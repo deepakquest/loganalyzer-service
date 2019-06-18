@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,11 +46,14 @@ private String logStashConfFile;
 			for (SearchHit hit : searchHits) {
 				jsonObject = (JSONObject) parser.parse(hit.getSourceAsString());
 				System.out.println("After search -----------" + hit.getSourceAsString());
+				String componentName = (String) jsonObject.get("component");
 				String logName = (String) jsonObject.get("type");
 				String logLevel = (String) jsonObject.get("level");
 				System.out.println("Date: " + (String) jsonObject.get("logdate"));
 				String date = (String) jsonObject.get("logdate");
 				String time = "";
+				String exception = "";
+				String exceptionStack = "";
 				if (date == null) {
 					date = "";
 				} else {
@@ -61,9 +63,15 @@ private String logStashConfFile;
 					}
 				}
 
-				String message = (String) jsonObject.get("errormsg");
+				String message = (String) jsonObject.get("message");
 				String fullMessage = (String) jsonObject.get("message");
-				LogEntry logentry = new LogEntry(logName, logLevel, date, time, message, fullMessage);
+				if(jsonObject.get("exception") !="" ) {
+					exception = (String) jsonObject.get("exception");
+				}
+				if(jsonObject.get("excepStack") !="" ) {
+					exceptionStack = (String) jsonObject.get("excepStack");
+				}
+				LogEntry logentry = new LogEntry(componentName,logName, logLevel, date, time, message, fullMessage,exception, exceptionStack);
 				logEntries.add(logentry);
 			} 
 		} catch (ParseException e) {
@@ -80,6 +88,7 @@ private String logStashConfFile;
 		Path srcDir = null;
 		Path destDir = null;
 		try {
+			long countBeforeReload = CopySnapUtil.getLogstashReloadCount();
 			if (CopySnapUtil.checkLogStashServerStatus()) {
 				CopySnapUtil.setSnapLocEnvVar(snapFolderLoc);
 				if (modality.equalsIgnoreCase("MR")) {
@@ -91,7 +100,15 @@ private String logStashConfFile;
 					destDir = Paths.get(logStashConfFile);
 					Files.copy(srcDir, destDir, StandardCopyOption.REPLACE_EXISTING);
 				}
-				TimeUnit.SECONDS.sleep(15); // REMOVE THIS IF ANYTHING WE GET TO FIND THE LOGSTASH RELOADIND SATUS
+				//TimeUnit.SECONDS.sleep(15); // REMOVE THIS IF ANYTHING WE GET TO FIND THE LOGSTASH RELOADIND SATUS
+				long countFlag = countBeforeReload+1;
+				while(countFlag > countBeforeReload) {
+					long countAfterReload =  CopySnapUtil.getLogstashReloadCount();
+					System.out.println("------------------REALOAD Success count------------- "+countAfterReload);
+					if(countAfterReload > countBeforeReload)
+						break ;
+					countFlag++;
+				}
 				return ServiceConstants.LOGSTASH_COPYCONFFILE_SUCCESS;
 			} else {
 				return ServiceConstants.LOGSTASH_NOTSTARTED_ERROR;
@@ -100,27 +117,6 @@ private String logStashConfFile;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return ServiceConstants.LOGSTASH_COPYCONFFILE_ERROR;
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			return ServiceConstants.LOGSTASH_COPYCONFFILE_ERROR;
-		}
-	}
-
-	public boolean checkLogStashReloadStatus() {
-		boolean status = false ;
-		try {
-			JSONParser parser = new JSONParser();
-			SearchHit[] searchHits = ElasticSearchOperations.searchCall(null,null,null,null,null);
-			for (SearchHit hit : searchHits) {
-				JSONObject jsonObject = (JSONObject) parser.parse(hit.getSourceAsString());
-				String indexName = (String) jsonObject.get("index");
-				System.out.println("LOG statsh RELOAD status : "+indexName);
-				if(indexName.equals("sample"))
-					status = true ;
-			}
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		return status ;
+		} 
 	}
 }

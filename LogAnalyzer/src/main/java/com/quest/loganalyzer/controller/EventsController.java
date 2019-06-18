@@ -1,10 +1,5 @@
 package com.quest.loganalyzer.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.json.simple.parser.ParseException;
@@ -23,6 +18,9 @@ import com.quest.loganalyzer.service.EventsService;
 
 @RestController
 @RequestMapping("/api")
+/*EventsController is the controller class responsible for creating services 
+ *for functionalities like search keyword, upload folder etc
+ */
 public class EventsController {
 
 	public static final Logger logger = LoggerFactory.getLogger(EventsController.class);
@@ -30,7 +28,13 @@ public class EventsController {
 	@Autowired
 	EventsService eventsService; // Service which will do all data retrieval/manipulation work
 
-	// ------------------- Elastic Search Call
+	/*searchES method is the service end point for basie search
+	 * @param String keyword
+	 * @param String loglevel
+	 * @param String fromdate
+	 * @param String todate
+	 * @param String component
+	 */
 	@RequestMapping(value = "/events", method = RequestMethod.GET, produces = { "application/json" })
 	public ResponseEntity<List<LogEntry>> searchES( @RequestParam(value = "keyword", required=false) String keyword,
 													@RequestParam(value = "loglevel", required=false) String logLevel,
@@ -41,25 +45,27 @@ public class EventsController {
 		List<LogEntry> entries = null;
 		try {
 			entries = eventsService.queryES(keyword, logLevel, fromDate, toDate, component);
-		} catch (ParseException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return new ResponseEntity<List<LogEntry>>(entries, HttpStatus.OK);
 	}
+	/* uploadLogs method is the service end point for basie search
+	 * @param String snapFolderLoc
+	 * @param String modality
+	 * @param String project
+	 */
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public ResponseEntity<String> uploadMultipleFiles(@RequestParam("filename") String snapFolderLoc,
-													 @RequestParam("modality") String modality,
-													 @RequestParam("project") String project) {
+	public ResponseEntity<String> uploadLogs(@RequestParam("filename") String snapFolderLoc,
+											 @RequestParam("modality") String modality,
+											 @RequestParam("project") String project) {
 		String copyResponse = null ;
-		System.out.println("Upload success");
 		try {
 			copyResponse = eventsService.copyModalityConfFile(snapFolderLoc, modality, project) ;	
 		}
 		 catch (Exception e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return new ResponseEntity<String>(copyResponse,HttpStatus.CREATED);
 	}
